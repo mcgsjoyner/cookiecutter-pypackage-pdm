@@ -6,10 +6,6 @@ Cookiecutter PyPackage
     :target: https://pyup.io/repos/github/audreyfeldroy/cookiecutter-pypackage/
     :alt: Updates
 
-.. image:: https://travis-ci.org/audreyfeldroy/cookiecutter-pypackage.svg?branch=master
-    :target: https://travis-ci.org/github/audreyfeldroy/cookiecutter-pypackage
-    :alt: Build Status
-
 .. image:: https://readthedocs.org/projects/cookiecutter-pypackage/badge/?version=latest
     :target: https://cookiecutter-pypackage.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
@@ -24,7 +20,6 @@ Features
 --------
 
 * Testing setup with ``unittest`` and ``python setup.py test`` or ``pytest``
-* Travis-CI_: Ready for Travis Continuous Integration testing
 * Tox_ testing: Setup to easily test for Python 3.6, 3.7, 3.8
 * Sphinx_ docs: Documentation ready for generation with, for example, `Read the Docs`_
 * bump2version_: Pre-configured version bumping with a single command
@@ -32,21 +27,6 @@ Features
 * Command line interface using Click (optional)
 
 .. _Cookiecutter: https://github.com/cookiecutter/cookiecutter
-
-Build Status
--------------
-
-Linux:
-
-.. image:: https://img.shields.io/travis/audreyfeldroy/cookiecutter-pypackage.svg
-    :target: https://travis-ci.org/audreyfeldroy/cookiecutter-pypackage
-    :alt: Linux build status on Travis CI
-
-Windows:
-
-.. image:: https://ci.appveyor.com/api/projects/status/github/audreyr/cookiecutter-pypackage?branch=master&svg=true
-    :target: https://ci.appveyor.com/project/audreyr/cookiecutter-pypackage/branch/master
-    :alt: Windows build status on Appveyor
 
 Quickstart
 ----------
@@ -63,11 +43,8 @@ Generate a Python package project::
 Then:
 
 * Create a repo and put it there.
-* Add the repo to your Travis-CI_ account.
 * Install the dev requirements into a virtualenv. (``pip install -r requirements_dev.txt``)
 * Register_ your project with PyPI.
-* Run the Travis CLI command ``travis encrypt --add deploy.password`` to encrypt your PyPI password in Travis config
-  and activate automated deployment on PyPI when you push a new tag to master branch.
 * Add the repo to your `Read the Docs`_ account + turn on the Read the Docs service hook.
 * Release your package by pushing a new tag to master.
 * Add a ``requirements.txt`` file that specifies the packages you will need for
@@ -90,7 +67,7 @@ Similar Cookiecutter Templates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * `Nekroze/cookiecutter-pypackage`_: A fork of this with a PyTest test runner,
-  strict flake8 checking with Travis/Tox, and some docs and ``setup.py`` differences.
+  strict flake8 checking with Tox, and some docs and ``setup.py`` differences.
 
 * `tony/cookiecutter-pypackage-pythonic`_: Fork with py2.7+3.3 optimizations.
   Flask/Werkzeug-style test runner, ``_compat`` module and module/doc conventions.
@@ -132,7 +109,6 @@ I also accept pull requests on this, if they're small, atomic, and if they
 make my own packaging experience better.
 
 
-.. _Travis-CI: http://travis-ci.org/
 .. _Tox: http://testrun.org/tox/
 .. _Sphinx: http://sphinx-doc.org/
 .. _Read the Docs: https://readthedocs.io/
