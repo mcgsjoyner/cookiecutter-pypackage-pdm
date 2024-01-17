@@ -64,11 +64,10 @@ Ready to contribute? Here's how to set up `{{ cookiecutter.project_slug }}` for 
 
     $ git clone git@github.com:your_name_here/{{ cookiecutter.project_slug }}.git
 
-3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
+3. Install your local copy::
 
-    $ mkvirtualenv {{ cookiecutter.project_slug }}
     $ cd {{ cookiecutter.project_slug }}/
-    $ python setup.py develop
+    $ make install-dev
 
 4. Create a branch for local development::
 
@@ -80,10 +79,7 @@ Ready to contribute? Here's how to set up `{{ cookiecutter.project_slug }}` for 
    tests, including testing other Python versions with tox::
 
     $ flake8 {{ cookiecutter.project_slug }} tests
-    $ python setup.py test or pytest
-    $ tox
-
-   To get flake8 and tox, just pip install them into your virtualenv.
+    $ make test-all
 
 6. Commit your changes and push your branch to GitHub::
 
@@ -102,7 +98,7 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
-3. The pull request should work for Python 3.5, 3.6, 3.7 and 3.8, and for PyPy.
+3. The pull request should work for Python 3.9, 3.10, 3.11, and 3.12.
 
 Tips
 ----
@@ -122,6 +118,6 @@ A reminder for the maintainers on how to deploy.
 Make sure all your changes are committed (including an entry in HISTORY.rst).
 Then run::
 
-$ bump2version patch # possible: major / minor / patch
+$ make test-all
+$ pdm bump patch # see https://github.com/carstencodes/pdm-bump for version options
 $ git push
-$ git push --tags

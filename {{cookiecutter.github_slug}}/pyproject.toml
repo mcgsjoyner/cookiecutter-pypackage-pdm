@@ -1,0 +1,75 @@
+[project]
+name = "{{ cookiecutter.project_slug }}"
+version = "{{ cookiecutter.version }"
+description = "{{ cookiecutter.project_short_description }}"
+authors = [
+    { name = "{{ cookiecutter.full_name }}", email = "{{ cookiecutter.email }}" },
+]
+requires-python = ">=3.9"
+readme = "README.rst"
+keywords = []
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+{%- if cookiecutter.open_source_license in license_classifiers %}
+        "{{ license_classifiers[cookiecutter.open_source_license] }}",
+{%- endif %}
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = []
+
+[project.optional-dependencies]
+notebooks = [
+    "jupyter>=1.0.0",
+]
+
+{%- if cookiecutter.open_source_license in license_classifiers %}
+[project.license]
+text = "{{ cookiecutter.open_source_license }}"
+{%- endif %}
+
+[project.urls]
+Homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.github_slug }}"
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[tool.pdm.dev-dependencies]
+test = [
+    "pytest>=7.4.2",
+]
+dev = [
+    "pip>=19.2.3",
+    "tox-pdm>=0.7.0",
+    "pdm-bump>=0.7.0",
+    "wheel>=0.33.6",
+    "watchdog>=0.9.0",
+    "flake8>=3.7.8",
+    "coverage>=4.5.4",
+    "twine>=1.14.0",
+    "black>=21.7b0",
+    "pre-commit>=3.4.0",
+]
+doc = [
+    "sphinx",
+    "myst-nb",
+    "sphinx-rtd-theme",
+]
+
+[tool.black]
+line-length = 99
+target-version = [
+    "py39",
+    "py310",
+    "py311",
+    "py312",
+]
+include = "\\.pyi?$"
+exclude = "/(\n  \\.toml\n  |\\.sh\n  |\\.git\n  |\\.ini\n  |Dockerfile\n  |Jenkinfile\n)/\n"
