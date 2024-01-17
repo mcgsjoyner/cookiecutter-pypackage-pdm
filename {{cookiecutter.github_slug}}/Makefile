@@ -102,4 +102,4 @@ install: clean ## install using pdm (https://pdm.fming.dev/latest/) as package m
 install-dev: clean ## install with dev dependencies
 	pip install pdm
 	pdm sync --dev
-	pre-commit install
+	pdm run pre-commit install
