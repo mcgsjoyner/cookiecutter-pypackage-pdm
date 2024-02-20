@@ -10,7 +10,7 @@ Stable release
 
 To install {{ cookiecutter.project_name }}, run this command in your terminal:
 
-.. code-block:: console
+.. code-block:: shell
 
     $ pip install {{ cookiecutter.project_slug }}
 
@@ -26,26 +26,36 @@ you through the process.
 From sources
 ------------
 
+This package is managed by the `PDM Python package manager <https://pdm-project.org/latest/>`_.
+Once installed using pip (as shown below), PDM can be leaned on to run various scripts under the correct Python
+virtual environment.
+
 The sources for {{ cookiecutter.project_name }} can be downloaded from the `Github repo`_.
 
 You can either clone the public repository:
 
-.. code-block:: console
+.. code-block:: shell
 
-    $ git clone git://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
+    git clone git://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
 
 Or download the `tarball`_:
 
-.. code-block:: console
+.. code-block:: shell
 
-    $ curl -OJL https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/tarball/master
+    curl -OJL https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/tarball/master
 
-Once you have a copy of the source, you can install it with:
+Then cd into the project root and run:
 
-.. code-block:: console
+.. code-block:: shell
 
-    $ python setup.py install
+    pip install pdm
+    pdm run install-dev
 
+For a complete list of pre-configured PDM scripts provided with this package, run:
+
+.. code-block:: shell
+
+    pdm run --list
 
 .. _Github repo: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}
 .. _tarball: https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/tarball/master

@@ -81,3 +81,73 @@ target-version = [
 ]
 include = "\\.pyi?$"
 exclude = "/(\n  \\.toml\n  |\\.sh\n  |\\.git\n  |\\.ini\n  |Dockerfile\n  |Jenkinfile\n)/\n"
+
+[tool.pdm.scripts]
+## install with dev deps
+install-dev = {composite = ["pdm sync --dev", "pre-commit install"]}
+
+## isntall with prod deps
+install-prod = {composite = ["pdm sync --prod", "pre-commit install"]}
+
+## remove build artifacts
+clean-build = {composite = [
+        "rm -fr build/",
+        "rm -fr dist/",
+        "rm -fr .eggs/",
+        "find . -name '*.egg-info' -exec rm -fr {} +",
+        "find . -name '*.egg' -exec rm -f {} +",
+]}
+
+## remove Python file artifacts
+clean-pyc = {composite = [
+	"find . -name '*.pyc' -exec rm -f {} +",
+	"find . -name '*.pyo' -exec rm -f {} +",
+	"find . -name '*~' -exec rm -f {} +",
+	"find . -name '__pycache__' -exec rm -fr {} +",
+]}
+
+## remove test and coverage artifacts
+clean-test = {composite = [
+	"rm -fr .tox/",
+	"rm -f .coverage",
+	"rm -fr htmlcov/",
+	"rm -fr .pytest_cache",
+]}
+
+## check style with flake8
+lint-flake8 = "flake8 {{ cookiecutter.project_slug }} tests"
+
+## check style with black
+lint-black = "black --check {{ cookiecutter.project_slug }} tests"
+
+## check style
+lint = {composite = ["lint-flake8", "lint/black"]}
+
+## remove all build, test, coverage and Python artifacts
+clean = {composite = ["clean-build", "clean-pyc", "clean-test"]}
+
+## run tests quickly with the default Python
+test = "pytest"
+
+## run tests on every Python version with tox
+test-all = "tox"
+
+## check code coverage quickly with the default Python
+coverage-report = {composite = [
+	"coverage run --source {{ cookiecutter.project_slug }} -m pytest",
+	"coverage report -m",
+	"coverage html",
+	"open htmlcov/index.html",
+]}
+
+## package and upload a release
+release = {composite = [
+    "dist",
+    "pdm publish"
+]}
+
+## builds source and wheel package
+dist = {composite = [
+    "clean",
+    "pdm build"
+]}
