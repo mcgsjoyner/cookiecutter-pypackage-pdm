@@ -104,3 +104,9 @@ ENV/
 # IDE settings
 .vscode/
 .idea/
+
+# MacOS
+.DS_Store
+
+# pre-commit
+.pre-commit-config.yaml
