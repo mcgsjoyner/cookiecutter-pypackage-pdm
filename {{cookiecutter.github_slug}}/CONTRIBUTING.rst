@@ -59,6 +59,7 @@ Get Started!
 
 Ready to contribute? Here's how to set up `{{ cookiecutter.project_slug }}` for local development.
 
+1. `Install PDM <https://pdm-project.org/en/stable/#installation>`_, the Python package manager used by this project.
 1. Fork the `{{ cookiecutter.project_slug }}` repo on GitHub.
 2. Clone your fork locally::
 
@@ -67,7 +68,7 @@ Ready to contribute? Here's how to set up `{{ cookiecutter.project_slug }}` for 
 3. Install your local copy::
 
     $ cd {{ cookiecutter.project_slug }}/
-    $ make install-dev
+    $ pdm install-dev
 
 4. Create a branch for local development::
 
@@ -78,8 +79,8 @@ Ready to contribute? Here's how to set up `{{ cookiecutter.project_slug }}` for 
 5. When you're done making changes, check that your changes pass flake8 and the
    tests, including testing other Python versions with tox::
 
-    $ flake8 {{ cookiecutter.project_slug }} tests
-    $ make test-all
+    $ pdm lint-flake8
+    $ pdm test-all
 
 6. Commit your changes and push your branch to GitHub::
 
@@ -118,6 +119,6 @@ A reminder for the maintainers on how to deploy.
 Make sure all your changes are committed (including an entry in HISTORY.rst).
 Then run::
 
-$ make test-all
+$ pdm test-all
 $ pdm bump patch # see https://github.com/carstencodes/pdm-bump for version options
 $ git push

@@ -83,71 +83,119 @@ include = "\\.pyi?$"
 exclude = "/(\n  \\.toml\n  |\\.sh\n  |\\.git\n  |\\.ini\n  |Dockerfile\n  |Jenkinfile\n)/\n"
 
 [tool.pdm.scripts]
-## install with dev deps
-install-dev = {composite = ["pdm sync --dev", "pre-commit install"]}
+lint-flake8 = {cmd = "flake8 {{ cookiecutter.project_slug }} tests", help = "Check style with flake8"}
+lint-black = { cmd = "black --check {{ cookiecutter.project_slug }} tests", help = "Check style with black"}
+lint = {composite = ["lint-flake8", "lint/black"], help = "Check style"}
+test = { cmd = "pytest", help = "Run tests quickly with the default Python" }
+test-all = { cmd = "tox", help = "Run tests on every Python version with tox" }
+MAKE = {shell = "MAKE"}
 
-## isntall with prod deps
-install-prod = {composite = ["pdm sync --prod", "pre-commit install"]}
+[tool.pdm.scripts.install-dev]
+help = "Install with dev dependencies"
+composite = [
+    "pdm sync --dev",
+    "pre-commit install",
+]
 
-## remove build artifacts
-clean-build = {composite = [
-        "rm -fr build/",
-        "rm -fr dist/",
-        "rm -fr .eggs/",
-        "find . -name '*.egg-info' -exec rm -fr {} +",
-        "find . -name '*.egg' -exec rm -f {} +",
-]}
+[tool.pdm.scripts.install]
+help = "Install using pdm as package manager"
+composite = [
+    "pdm sync --prod",
+    "pre-commit install",
+]
 
-## remove Python file artifacts
-clean-pyc = {composite = [
-	"find . -name '*.pyc' -exec rm -f {} +",
-	"find . -name '*.pyo' -exec rm -f {} +",
-	"find . -name '*~' -exec rm -f {} +",
-	"find . -name '__pycache__' -exec rm -fr {} +",
-]}
+[tool.pdm.scripts.clean-build]
+help = "Remove build artifacts"
+composite = [
+    "rm -fr build/",
+    "rm -fr dist/",
+    "rm -fr .eggs/",
+    "find . -name '*.egg-info' -exec rm -fr {} +",
+    "find . -name '*.egg' -exec rm -f {} +",
+]
 
-## remove test and coverage artifacts
-clean-test = {composite = [
-	"rm -fr .tox/",
-	"rm -f .coverage",
-	"rm -fr htmlcov/",
-	"rm -fr .pytest_cache",
-]}
+[tool.pdm.scripts.clean-pyc]
+help = "Remove Python file artifacts"
+composite = [
+    "find . -name '*.pyc' -exec rm -f {} +",
+    "find . -name '*.pyo' -exec rm -f {} +",
+    "find . -name '*~' -exec rm -f {} +",
+    "find . -name '__pycache__' -exec rm -fr {} +",
+]
 
-## check style with flake8
-lint-flake8 = "flake8 {{ cookiecutter.project_slug }} tests"
+[tool.pdm.scripts.clean-test]
+help = "Remove test and coverage artifacts"
+composite = [
+    "rm -fr .tox/",
+    "rm -f .coverage",
+    "rm -fr htmlcov/",
+    "rm -fr .pytest_cache",
+]
 
-## check style with black
-lint-black = "black --check {{ cookiecutter.project_slug }} tests"
+[tool.pdm.scripts.clean]
+help = "Remove all build, test, coverage and Python artifacts"
+composite = [
+    "clean-build",
+    "clean-pyc",
+    "clean-test",
+]
 
-## check style
-lint = {composite = ["lint-flake8", "lint/black"]}
+[tool.pdm.scripts.coverage-report]
+help = "Check code coverage quickly with the default Python"
+composite = [
+    "coverage run --source {{ cookiecutter.project_slug }} -m pytest",
+    "coverage report -m",
+    "coverage html",
+    "open htmlcov/index.html",
+]
 
-## remove all build, test, coverage and Python artifacts
-clean = {composite = ["clean-build", "clean-pyc", "clean-test"]}
-
-## run tests quickly with the default Python
-test = "pytest"
-
-## run tests on every Python version with tox
-test-all = "tox"
-
-## check code coverage quickly with the default Python
-coverage-report = {composite = [
-	"coverage run --source {{ cookiecutter.project_slug }} -m pytest",
-	"coverage report -m",
-	"coverage html",
-	"open htmlcov/index.html",
-]}
-
-## package and upload a release
-release = {composite = [
+[tool.pdm.scripts.release]
+help = "Package and upload a release"
+composite = [
     "dist",
-    "pdm publish"
-]}
+    "pdm publish",
+]
 
-## builds source and wheel package
-dist = {composite = [
+[tool.pdm.scripts.dist]
+help = "Build source and wheel package"
+composite = [
     "clean",
-    "pdm build"
-]}
+    "pdm build",
+]
+
+[tool.pdm.scripts.browser]
+help = "Open the given argument in a browser window using Python"
+cmd = """
+python -c "
+import os, webbrowser, sys;
+from urllib.request import pathname2url;
+webbrowser.open(f'file://{pathname2url(os.path.abspath(sys.argv[1]))}')
+"
+"""
+
+[tool.pdm.scripts.docs]
+help = "Generate Sphinx HTML documentation, including API docs"
+composite = [
+	"rm -f docs/{{ cookiecutter.project_slug }}.rst",
+	"rm -f docs/modules.rst",
+	"sphinx-apidoc -o docs/ {{ cookiecutter.project_slug }}",
+	"MAKE -C docs clean",
+	"MAKE -C docs html",
+	"browser docs/_build/html/index.html",
+]
+
+[tool.pdm.scripts.serve-docs]
+help = "Compile the docs watching for changes"
+composite = [
+    "docs",
+    "watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D ."
+]
+
+[tool.pdm.scripts.catch-me-up]
+help = "Check out the latest stable code, check for new dependencies, and update your environment"
+composite = [
+    "git checkout main",
+    "git pull",
+    "pdm self update",
+    "pdm sync",
+]
